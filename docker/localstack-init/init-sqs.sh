@@ -1,2 +1,11 @@
 #!/bin/sh
-awslocal sqs create-queue --queue-name pedidos
+
+awslocal sqs create-queue \
+    --queue-name pedidos \
+    --atributes '{
+        "DelaySeconds":"10",
+        "MaximumMessageSize": "262144",
+        "MessageRetentionPeriod": "12099600",
+        "VisibilityTimeout": "30",
+        "ReceiveMessageWaitTimeSeconds": "20"
+    }'
