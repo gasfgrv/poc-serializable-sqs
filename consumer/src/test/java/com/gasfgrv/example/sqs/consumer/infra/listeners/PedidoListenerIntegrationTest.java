@@ -1,11 +1,12 @@
 package com.gasfgrv.example.sqs.consumer.infra.listeners;
 
-import com.gasfgrv.example.sqs.consumer.application.ReceberPedidoUsecase;
-import com.gasfgrv.example.sqs.consumer.domain.models.Pedido;
-import com.gasfgrv.example.sqs.consumer.domain.models.PedidoStatus;
-import com.gasfgrv.example.sqs.consumer.infra.config.containers.TestcontainersConfiguration;
-import com.gasfgrv.example.sqs.consumer.proto.PedidoEventProto;
-import io.awspring.cloud.sqs.operations.SqsTemplate;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
+import static org.mockito.Mockito.verify;
+
+import java.time.Duration;
+import java.util.Base64;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -13,19 +14,20 @@ import org.mockito.Captor;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
-import java.time.Duration;
-import java.util.Base64;
+import com.gasfgrv.example.sqs.consumer.application.ReceberPedidoUsecase;
+import com.gasfgrv.example.sqs.consumer.domain.models.Pedido;
+import com.gasfgrv.example.sqs.consumer.domain.models.PedidoStatus;
+import com.gasfgrv.example.sqs.consumer.infra.config.containers.TestcontainersConfiguration;
+import com.gasfgrv.example.sqs.consumer.proto.PedidoEventProto;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
-import static org.mockito.Mockito.verify;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 
 @ExtendWith(MockitoExtension.class)
 @Import(TestcontainersConfiguration.class)
-@SpringBootTest(properties = {"aws.sqs.queue-url=pedidos"})
+@SpringBootTest(properties = { "aws.sqs.queue-url=pedidos" })
 class PedidoListenerIntegrationTest {
 
     @Autowired

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum PedidoStatus {
+
     CRIADO("criado"),
     PENDENTE("pendente"),
     CONFIRMADO("confirmado"),

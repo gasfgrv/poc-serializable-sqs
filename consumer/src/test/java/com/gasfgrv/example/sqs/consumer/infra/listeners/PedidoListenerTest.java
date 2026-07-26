@@ -1,12 +1,15 @@
 package com.gasfgrv.example.sqs.consumer.infra.listeners;
 
-import com.gasfgrv.example.sqs.consumer.application.ReceberPedidoUsecase;
-import com.gasfgrv.example.sqs.consumer.domain.models.Pedido;
-import com.gasfgrv.example.sqs.consumer.domain.models.PedidoStatus;
-import com.gasfgrv.example.sqs.consumer.infra.config.SqsProperties;
-import com.gasfgrv.example.sqs.consumer.infra.mappers.PedidoMapper;
-import com.gasfgrv.example.sqs.consumer.proto.PedidoEventProto;
-import com.google.protobuf.InvalidProtocolBufferException;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
+
+import java.util.Base64;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -16,15 +19,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.task.TaskExecutor;
 
-import java.util.Base64;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import com.gasfgrv.example.sqs.consumer.application.ReceberPedidoUsecase;
+import com.gasfgrv.example.sqs.consumer.domain.models.Pedido;
+import com.gasfgrv.example.sqs.consumer.domain.models.PedidoStatus;
+import com.gasfgrv.example.sqs.consumer.infra.config.SqsProperties;
+import com.gasfgrv.example.sqs.consumer.infra.mappers.PedidoMapper;
+import com.gasfgrv.example.sqs.consumer.proto.PedidoEventProto;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 @ExtendWith(MockitoExtension.class)
 class PedidoListenerTest {
@@ -98,7 +99,7 @@ class PedidoListenerTest {
 
     @Test
     void deveLancarExcecaoQuandoFalharAoDesserializarProtobuf() {
-        var bytesInvalidos = new byte[]{0x0F};
+        var bytesInvalidos = new byte[] { 0x0F };
         var mensagemBase64 = Base64.getEncoder().encodeToString(bytesInvalidos);
 
         when(properties.queueUrl()).thenReturn("http://localhost:4566/000000000000/minha-fila");

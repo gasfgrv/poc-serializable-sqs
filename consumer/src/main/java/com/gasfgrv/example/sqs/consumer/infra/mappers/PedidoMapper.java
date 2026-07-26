@@ -1,12 +1,13 @@
 package com.gasfgrv.example.sqs.consumer.infra.mappers;
 
-import com.gasfgrv.example.sqs.consumer.domain.models.Pedido;
-import com.gasfgrv.example.sqs.consumer.domain.models.PedidoStatus;
-import com.gasfgrv.example.sqs.consumer.proto.PedidoEventProto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
+
+import com.gasfgrv.example.sqs.consumer.domain.models.Pedido;
+import com.gasfgrv.example.sqs.consumer.domain.models.PedidoStatus;
+import com.gasfgrv.example.sqs.consumer.proto.PedidoEventProto;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PedidoMapper {

@@ -1,17 +1,19 @@
 package com.gasfgrv.example.sqs.consumer.infra.listeners;
 
+import java.util.Base64;
+
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.stereotype.Component;
+
 import com.gasfgrv.example.sqs.consumer.application.ReceberPedidoUsecase;
 import com.gasfgrv.example.sqs.consumer.infra.config.SqsProperties;
 import com.gasfgrv.example.sqs.consumer.infra.mappers.PedidoMapper;
 import com.gasfgrv.example.sqs.consumer.proto.PedidoEventProto;
 import com.google.protobuf.InvalidProtocolBufferException;
+
 import io.awspring.cloud.sqs.annotation.SqsListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.stereotype.Component;
-
-import java.util.Base64;
 
 @Slf4j
 @Component
@@ -42,6 +44,8 @@ public class PedidoListener {
         } catch (InvalidProtocolBufferException e) {
             log.error("Erro ao desserializar Protobuf: ", e);
             throw new RuntimeException("Erro ao processar contrato Protobuf", e);
+        } finally {
+            Thread.currentThread().interrupt();
         }
     }
 
