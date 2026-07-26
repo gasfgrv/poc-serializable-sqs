@@ -8,8 +8,8 @@ build-containers:
 destroy-containers:
 	docker compose -f docker/compose.yml down -v
 
-check-messages: build-containers
+check-messages:
 	docker exec -it aws-local awslocal sqs receive-message --queue-url $(QUEUE_URL)
 
-check-queue: build-containers
+check-queue:
 	docker exec -it aws-local awslocal sqs get-queue-attributes --queue-url $(QUEUE_URL) --attribute-names All

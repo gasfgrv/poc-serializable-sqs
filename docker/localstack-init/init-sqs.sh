@@ -2,7 +2,7 @@
 
 awslocal sqs create-queue \
     --queue-name pedidos \
-    --atributes '{
+    --attributes '{
         "DelaySeconds":"10",
         "MaximumMessageSize": "262144",
         "MessageRetentionPeriod": "12099600",
