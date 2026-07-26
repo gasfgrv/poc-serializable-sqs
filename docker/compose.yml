@@ -1,0 +1,19 @@
+services:
+  aws:
+    image: localstack/localstack:4.14.0
+    container_name: aws-local
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: sqs
+      AWS_DEFAULT_REGION: sa-east-1
+      DEBUG: 0
+    volumes:
+      - "./localstack-init:/etc/localstack/init/ready.d"
+    networks:
+      - aws-net
+
+networks:
+  aws-net:
+    name: aws-net
+    driver: bridge
