@@ -2,11 +2,7 @@ package com.gasfgrv.example.sqs.producer.domain.models;
 
 import org.apache.commons.text.RandomStringGenerator;
 
-public record Pedido(
-        String pedidoId,
-        double valor,
-        PedidoStatus status
-) {
+public record Pedido(String pedidoId, double valor, PedidoStatus status) {
 
     public static Pedido gerarPedido(double valor, String status) {
         var id = gerarId();

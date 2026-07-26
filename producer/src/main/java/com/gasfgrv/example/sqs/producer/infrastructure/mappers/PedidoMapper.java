@@ -1,20 +1,20 @@
 package com.gasfgrv.example.sqs.producer.infrastructure.mappers;
 
-import com.gasfgrv.example.sqs.producer.domain.models.Pedido;
-import com.gasfgrv.example.sqs.producer.domain.models.PedidoStatus;
-import com.gasfgrv.example.sqs.producer.infrastructure.dtos.PedidoRequest;
-import com.gasfgrv.example.sqs.producer.proto.PedidoEventProto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
+
+import com.gasfgrv.example.sqs.producer.domain.models.Pedido;
+import com.gasfgrv.example.sqs.producer.domain.models.PedidoStatus;
+import com.gasfgrv.example.sqs.producer.infrastructure.dtos.PedidoRequest;
+import com.gasfgrv.example.sqs.producer.proto.PedidoEventProto;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PedidoMapper {
 
     @Mapping(target = "status", source = "status", qualifiedByName = "statusToProto")
     PedidoEventProto toProto(Pedido pedido);
-
 
     @Mapping(target = "status", source = "status", qualifiedByName = "statusToPedido")
     Pedido toPedido(PedidoRequest request);
@@ -28,4 +28,5 @@ public interface PedidoMapper {
     default PedidoStatus statusToPedido(String status) {
         return PedidoStatus.obterStatus(status);
     }
+
 }

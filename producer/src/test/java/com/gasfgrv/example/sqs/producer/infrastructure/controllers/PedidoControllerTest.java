@@ -1,23 +1,25 @@
 package com.gasfgrv.example.sqs.producer.infrastructure.controllers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.http.HttpStatus;
+
 import com.gasfgrv.example.sqs.producer.application.GerarPedidoUsecase;
 import com.gasfgrv.example.sqs.producer.domain.models.Pedido;
 import com.gasfgrv.example.sqs.producer.domain.models.PedidoStatus;
 import com.gasfgrv.example.sqs.producer.infrastructure.dtos.PedidoRequest;
 import com.gasfgrv.example.sqs.producer.infrastructure.mappers.PedidoMapper;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.http.HttpStatus;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PedidoControllerTest {
@@ -61,4 +63,5 @@ class PedidoControllerTest {
         verify(executor).execute(runnableCaptor.capture());
         verify(usecase).gerarPedido(pedido);
     }
+
 }

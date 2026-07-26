@@ -1,24 +1,26 @@
 package com.gasfgrv.example.sqs.producer.infrastructure.adapters;
 
-import com.gasfgrv.example.sqs.producer.domain.models.Pedido;
-import com.gasfgrv.example.sqs.producer.domain.models.PedidoStatus;
-import com.gasfgrv.example.sqs.producer.infrastructure.configs.SqsProperties;
-import com.gasfgrv.example.sqs.producer.infrastructure.mappers.PedidoMapper;
-import com.gasfgrv.example.sqs.producer.proto.PedidoEventProto;
-import io.awspring.cloud.sqs.operations.SqsSendOptions;
-import io.awspring.cloud.sqs.operations.SqsTemplate;
+import java.util.function.Consumer;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.function.Consumer;
+import com.gasfgrv.example.sqs.producer.domain.models.Pedido;
+import com.gasfgrv.example.sqs.producer.domain.models.PedidoStatus;
+import com.gasfgrv.example.sqs.producer.infrastructure.mappers.PedidoMapper;
+import com.gasfgrv.example.sqs.producer.proto.PedidoEventProto;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import io.awspring.cloud.sqs.operations.SqsSendOptions;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 
 @ExtendWith(MockitoExtension.class)
 class NotificadorAdapterTest {
@@ -28,9 +30,6 @@ class NotificadorAdapterTest {
 
     @Mock
     private PedidoMapper mapper;
-
-    @Mock
-    private SqsProperties properties;
 
     @InjectMocks
     private NotificadorAdapter adapter;

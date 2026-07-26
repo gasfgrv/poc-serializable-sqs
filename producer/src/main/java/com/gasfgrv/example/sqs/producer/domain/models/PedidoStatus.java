@@ -1,11 +1,12 @@
 package com.gasfgrv.example.sqs.producer.domain.models;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.Arrays;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum PedidoStatus {
+
     CRIADO("criado"),
     PENDENTE("pendente"),
     CONFIRMADO("confirmado"),
@@ -16,12 +17,11 @@ public enum PedidoStatus {
     public static PedidoStatus obterStatus(String status) {
         return Arrays.stream(values())
                 .filter(s -> s.status.equalsIgnoreCase(status))
-                .findFirst()
-                .orElse(null);
+                .findFirst().orElse(null);
     }
 
     public static String obterValor(PedidoStatus status) {
-        return status.status;
+        return status.status.toLowerCase();
     }
 
 }

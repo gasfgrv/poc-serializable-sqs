@@ -1,11 +1,13 @@
 package com.gasfgrv.example.sqs.producer.application;
 
+import org.springframework.stereotype.Service;
+
 import com.gasfgrv.example.sqs.producer.domain.models.Pedido;
 import com.gasfgrv.example.sqs.producer.domain.models.PedidoStatus;
 import com.gasfgrv.example.sqs.producer.domain.ports.NotificarPort;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -16,13 +18,28 @@ public class GerarPedidoUsecase {
 
     public void gerarPedido(Pedido pedido) {
         try {
-            pedido = Pedido.gerarPedido(pedido.valor(), PedidoStatus.obterValor(pedido.status()));
-            notificador.notificar(pedido);
+            gerarNovoPedidoENotificar(pedido);
         } catch (Exception e) {
-            log.error("Erro ao gerar pedido", e);
-            throw new RuntimeException("Erro ao gerar pedido", e);
+            trataErro(e);
         } finally {
-            Thread.currentThread().interrupt();
+            interromperExecucao();
         }
     }
+
+    private void gerarNovoPedidoENotificar(Pedido pedido) {
+        var statusNovoPedido = PedidoStatus.obterValor(pedido.status());
+        var novoPedido = Pedido.gerarPedido(pedido.valor(), statusNovoPedido);
+        notificador.notificar(novoPedido);
+    }
+
+    private void trataErro(Exception e) {
+        String mensagemErro = "Erro ao gerar pedido";
+        log.error(mensagemErro, e);
+        throw new RuntimeException(mensagemErro, e);
+    }
+
+    private void interromperExecucao() {
+        Thread.currentThread().interrupt();
+    }
+
 }

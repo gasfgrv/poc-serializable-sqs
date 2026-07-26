@@ -31,8 +31,7 @@ public class TestcontainersConfiguration {
 
     @Bean
     public CommandLineRunner commandLineRunner(LocalStackContainer container) {
-        return args ->
-                container.execInContainer("awslocal", "sqs", "create-queue", "--queue-name", "pedidos");
+        return args -> container.execInContainer("awslocal", "sqs", "create-queue", "--queue-name", "pedidos");
     }
 
 }

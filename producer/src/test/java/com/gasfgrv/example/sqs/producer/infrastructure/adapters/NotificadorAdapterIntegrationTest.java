@@ -1,22 +1,23 @@
 package com.gasfgrv.example.sqs.producer.infrastructure.adapters;
 
-import com.gasfgrv.example.sqs.producer.domain.models.Pedido;
-import com.gasfgrv.example.sqs.producer.domain.models.PedidoStatus;
-import com.gasfgrv.example.sqs.producer.infrastructure.configs.SqsProperties;
-import com.gasfgrv.example.sqs.producer.infrastructure.configs.containers.TestcontainersConfiguration;
-import io.awspring.cloud.sqs.operations.SqsTemplate;
+import java.time.Duration;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
-import java.time.Duration;
+import com.gasfgrv.example.sqs.producer.domain.models.Pedido;
+import com.gasfgrv.example.sqs.producer.domain.models.PedidoStatus;
+import com.gasfgrv.example.sqs.producer.infrastructure.configs.SqsProperties;
+import com.gasfgrv.example.sqs.producer.infrastructure.configs.containers.TestcontainersConfiguration;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 
 @Import(TestcontainersConfiguration.class)
-@SpringBootTest(properties = {"aws.sqs.queue-url=pedidos"})
+@SpringBootTest(properties = { "aws.sqs.queue-url=pedidos" })
 class NotificadorAdapterIntegrationTest {
 
     @Autowired
@@ -41,4 +42,5 @@ class NotificadorAdapterIntegrationTest {
                     assertThat(message).isPresent();
                 });
     }
+
 }

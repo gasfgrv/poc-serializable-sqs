@@ -1,21 +1,21 @@
 package com.gasfgrv.example.sqs.producer.application;
 
-import com.gasfgrv.example.sqs.producer.domain.models.Pedido;
-import com.gasfgrv.example.sqs.producer.domain.models.PedidoStatus;
-import com.gasfgrv.example.sqs.producer.domain.ports.NotificarPort;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.gasfgrv.example.sqs.producer.domain.models.Pedido;
+import com.gasfgrv.example.sqs.producer.domain.models.PedidoStatus;
+import com.gasfgrv.example.sqs.producer.domain.ports.NotificarPort;
 
 @ExtendWith(MockitoExtension.class)
 class GerarPedidoUsecaseTest {
@@ -37,7 +37,7 @@ class GerarPedidoUsecaseTest {
 
         verify(notificador).notificar(pedidoCaptor.capture());
         var pedidoCapturado = pedidoCaptor.getValue();
-        
+
         assertThat(pedidoCapturado).isNotNull();
         assertThat(pedidoCapturado.valor()).isEqualTo(10.0);
         assertThat(pedidoCapturado.status()).isEqualTo(PedidoStatus.CRIADO);
@@ -53,7 +53,7 @@ class GerarPedidoUsecaseTest {
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Erro ao gerar pedido")
                 .hasCauseInstanceOf(RuntimeException.class);
-                
+
         verify(notificador).notificar(any(Pedido.class));
     }
 
